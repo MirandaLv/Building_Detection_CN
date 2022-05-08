@@ -1,0 +1,85 @@
+{
+    "assets": {
+        "labels": {
+            "href": "labels.geojson",
+            "type": "application/geo+json"
+        }
+    },
+    "bbox": [
+        39.31367952293228,
+        -5.905851570308218,
+        39.340797007857546,
+        -5.878724233277496
+    ],
+    "geometry": {
+        "coordinates": [
+            [
+                [
+                    39.316367972905894,
+                    -5.905850055917426
+                ],
+                [
+                    39.31369474037646,
+                    -5.905851570308218
+                ],
+                [
+                    39.31367952293228,
+                    -5.878740108331854
+                ],
+                [
+                    39.34078047573221,
+                    -5.878724233277496
+                ],
+                [
+                    39.340797007857546,
+                    -5.905835621542266
+                ],
+                [
+                    39.316367972905894,
+                    -5.905850055917426
+                ]
+            ]
+        ],
+        "type": "Polygon"
+    },
+    "id": "open_cities_ai_challenge_train_tier_1_labels_znz_06f252",
+    "links": [
+        {
+            "href": "../collection.json",
+            "rel": "collection"
+        },
+        {
+            "href": "../collection.json",
+            "rel": "parent"
+        },
+        {
+            "href": "../../open_cities_ai_challenge_train_tier_1_source/open_cities_ai_challenge_train_tier_1_source_znz_06f252/stac.json",
+            "rel": "source"
+        }
+    ],
+    "properties": {
+        "area": "znz",
+        "datetime": "2016-09-21T00:00:00+00:00",
+        "label:description": "Geojson building labels for scene 06f252",
+        "label:overviews": [
+            {
+                "counts": [
+                    {
+                        "count": 1181,
+                        "name": "yes"
+                    }
+                ],
+                "property_key": "building"
+            }
+        ],
+        "label:properties": [
+            "building"
+        ],
+        "label:type": "vector"
+    },
+    "stac_extensions": [
+        "label"
+    ],
+    "stac_version": "1.0.0-beta.2",
+    "type": "Feature"
+}

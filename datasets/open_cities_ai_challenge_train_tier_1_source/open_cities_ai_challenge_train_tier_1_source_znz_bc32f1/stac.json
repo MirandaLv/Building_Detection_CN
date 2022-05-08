@@ -1,0 +1,65 @@
+{
+    "assets": {
+        "image": {
+            "href": "image.tif",
+            "title": "GeoTIFF",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized"
+        }
+    },
+    "bbox": [
+        39.34083023028068,
+        -5.987278166971163,
+        39.36795215042373,
+        -5.960140574104503
+    ],
+    "collection": "open_cities_ai_challenge_train_tier_1_source",
+    "geometry": {
+        "coordinates": [
+            [
+                [
+                    39.344219970219626,
+                    -5.987276061137261
+                ],
+                [
+                    39.340847000464755,
+                    -5.987278166971163
+                ],
+                [
+                    39.34083023028068,
+                    -5.960158002925742
+                ],
+                [
+                    39.36793404669621,
+                    -5.960140574104503
+                ],
+                [
+                    39.36795215042373,
+                    -5.987260658288568
+                ],
+                [
+                    39.344219970219626,
+                    -5.987276061137261
+                ]
+            ]
+        ],
+        "type": "Polygon"
+    },
+    "id": "open_cities_ai_challenge_train_tier_1_source_znz_bc32f1",
+    "links": [
+        {
+            "href": "../collection.json",
+            "rel": "collection"
+        },
+        {
+            "href": "../collection.json",
+            "rel": "parent"
+        }
+    ],
+    "properties": {
+        "area": "znz",
+        "datetime": "2016-10-12T00:00:00+00:00",
+        "license": "CC-BY-4.0"
+    },
+    "stac_version": "1.0.0-beta.2",
+    "type": "Feature"
+}

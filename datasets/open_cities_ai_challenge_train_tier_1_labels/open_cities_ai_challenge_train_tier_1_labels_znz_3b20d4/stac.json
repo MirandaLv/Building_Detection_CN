@@ -1,0 +1,81 @@
+{
+    "assets": {
+        "labels": {
+            "href": "labels.geojson",
+            "type": "application/geo+json"
+        }
+    },
+    "bbox": [
+        39.31347857904143,
+        -5.851778449857214,
+        39.34092291979187,
+        -5.824334109106769
+    ],
+    "geometry": {
+        "coordinates": [
+            [
+                [
+                    39.313582732137256,
+                    -5.824334109106769
+                ],
+                [
+                    39.34087084324396,
+                    -5.824386185654682
+                ],
+                [
+                    39.34092291979187,
+                    -5.8517263733093
+                ],
+                [
+                    39.31347857904143,
+                    -5.851778449857214
+                ],
+                [
+                    39.313582732137256,
+                    -5.824334109106769
+                ]
+            ]
+        ],
+        "type": "Polygon"
+    },
+    "id": "open_cities_ai_challenge_train_tier_1_labels_znz_3b20d4",
+    "links": [
+        {
+            "href": "../collection.json",
+            "rel": "collection"
+        },
+        {
+            "href": "../collection.json",
+            "rel": "parent"
+        },
+        {
+            "href": "../../open_cities_ai_challenge_train_tier_1_source/open_cities_ai_challenge_train_tier_1_source_znz_3b20d4/stac.json",
+            "rel": "source"
+        }
+    ],
+    "properties": {
+        "area": "znz",
+        "datetime": "2016-10-05T00:00:00+00:00",
+        "label:description": "Geojson building labels for scene 3b20d4",
+        "label:overviews": [
+            {
+                "counts": [
+                    {
+                        "count": 702,
+                        "name": "yes"
+                    }
+                ],
+                "property_key": "building"
+            }
+        ],
+        "label:properties": [
+            "building"
+        ],
+        "label:type": "vector"
+    },
+    "stac_extensions": [
+        "label"
+    ],
+    "stac_version": "1.0.0-beta.2",
+    "type": "Feature"
+}

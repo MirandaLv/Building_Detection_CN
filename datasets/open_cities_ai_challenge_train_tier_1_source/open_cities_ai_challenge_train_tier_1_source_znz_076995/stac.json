@@ -1,0 +1,77 @@
+{
+    "assets": {
+        "image": {
+            "href": "image.tif",
+            "title": "GeoTIFF",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized"
+        }
+    },
+    "bbox": [
+        39.34073844240503,
+        -5.851576358919395,
+        39.36335800442592,
+        -5.824424385662977
+    ],
+    "collection": "open_cities_ai_challenge_train_tier_1_source",
+    "geometry": {
+        "coordinates": [
+            [
+                [
+                    39.3407474698636,
+                    -5.824437937045834
+                ],
+                [
+                    39.36248225709067,
+                    -5.824427688553141
+                ],
+                [
+                    39.3625604145535,
+                    -5.824877893423849
+                ],
+                [
+                    39.36300752853781,
+                    -5.828561459551643
+                ],
+                [
+                    39.36335786823858,
+                    -5.832067348597373
+                ],
+                [
+                    39.3631508602256,
+                    -5.849635373302928
+                ],
+                [
+                    39.362683761021664,
+                    -5.851560567141806
+                ],
+                [
+                    39.34075687849739,
+                    -5.851573055804989
+                ],
+                [
+                    39.3407474698636,
+                    -5.824437937045834
+                ]
+            ]
+        ],
+        "type": "Polygon"
+    },
+    "id": "open_cities_ai_challenge_train_tier_1_source_znz_076995",
+    "links": [
+        {
+            "href": "../collection.json",
+            "rel": "collection"
+        },
+        {
+            "href": "../collection.json",
+            "rel": "parent"
+        }
+    ],
+    "properties": {
+        "area": "znz",
+        "datetime": "2016-10-04T00:00:00+00:00",
+        "license": "CC-BY-4.0"
+    },
+    "stac_version": "1.0.0-beta.2",
+    "type": "Feature"
+}

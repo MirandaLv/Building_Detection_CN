@@ -1,0 +1,156 @@
+{
+    "description": "Open Cities AI Challenge Train Tier 1 Labels",
+    "extent": {
+        "spatial": {
+            "bbox": [
+                [
+                    -10.801045209329727,
+                    -6.832170132981521,
+                    39.378914288970435,
+                    13.583969811536608
+                ]
+            ]
+        },
+        "temporal": {
+            "interval": [
+                [
+                    "2015-04-17T00:00:00+00:00",
+                    "2019-07-07T00:00:00+00:00"
+                ]
+            ]
+        }
+    },
+    "id": "open_cities_ai_challenge_train_tier_1_labels",
+    "license": "ODbL-1.0",
+    "links": [
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_acc_665946/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_acc_a42435/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_acc_ca041a/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_acc_d41d81/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_dar_0a4c40/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_dar_353093/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_dar_42f235/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_dar_a017f9/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_dar_b15fce/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_dar_f883a0/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_kam_4e7c7f/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_mon_207cc7/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_mon_401175/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_mon_493701/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_mon_f15272/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_nia_825a50/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_ptn_abe1a3/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_ptn_f49f31/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_06f252/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_076995/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_33cae6/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_3b20d4/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_3f8360/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_425403/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_75cdfa/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_9b8638/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_aee7fd/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_bc32f1/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_bd5c14/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_c7415c/stac.json",
+            "rel": "item"
+        },
+        {
+            "href": "open_cities_ai_challenge_train_tier_1_labels_znz_e52478/stac.json",
+            "rel": "item"
+        }
+    ],
+    "stac_extensions": [
+        "label"
+    ],
+    "stac_version": "1.0.0-beta.2",
+    "title": "Open Cities AI Challenge Train Tier 1 Labels"
+}
