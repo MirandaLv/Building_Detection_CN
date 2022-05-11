@@ -13,11 +13,11 @@ import shutil
 
 class DataProcessing:
 
-    def __init__(self, ROOT_DIR, IMAGE_PATH, POLY_PATH):
+    def __init__(self, IMAGE_PATH, POLY_PATH):
 
         self.ImagePath = IMAGE_PATH
         self.PolyPath = POLY_PATH
-        self.ROOT_DIR = ROOT_DIR
+#         self.ROOT_DIR = ROOT_DIR
         # self.polys = gpd.read_file(POLY_PATH)
 
     def create_meta_df(self, FolderPath, label):
@@ -174,6 +174,8 @@ class DataProcessing:
 
         # annotations.append(image_dict)
 
+
+    
     def get_patches(self, dim, Out_PATH, nrandom=False):
 
         """

@@ -6,21 +6,22 @@ import numpy as np
 import skimage.draw
 import skimage
 import rasterio
+import geopandas as gpd
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../")
 
 # Import maskRCNN
 sys.path.append(ROOT_DIR)
-from mrcnn1.config import Config
-from mrcnn1 import model as modellib, utils
+from mrcnn.config import Config
+from mrcnn import model as modellib, utils
 
 # Path to trained weights file
 COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "weights/mask_rcnn_coco.h5")
 
 # Directory to save logs and model checkpoints, if not provided
 # through the command line argument --logs
-DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
+DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs_PAN")
 
 
 ###################################################
@@ -32,28 +33,62 @@ class BuildingConfig(Config):
     Configuration for training on the toy dataset.
     Drives from the base Config class and overrides some values
     """
-    # Give the configuration a recognizable name
-    NAME = "building"
+#     # Give the configuration a recognizable name  
+#     NAME = "building"
+#     BACKBONE = "resnet50"
 
-    # We use a GPU with 12GB memory,which can fit two images.
-    # Adjust down if you use a smaller GPU
+#     # We use a GPU with 12GB memory,which can fit two images.
+#     # Adjust down if you use a smaller GPU
+#     IMAGES_PER_GPU = 1
+
+#     # Number of classes (including background)
+#     NUM_CLASSES = 1 + 1
+
+#     # Number of training steps per epoch
+#     STEPS_PER_EPOCH = 500
+
+#     # Skip detections with <90% confidence
+#     DETECTION_MIN_CONFIDENCE = 0.9
+
+#     IMAGE_MIN_DIM = 512
+#     IMAGE_MAX_DIM = 512
+#     USE_MINI_MASK = False
+
+#     RPN_ANCHOR_SCALES = (16, 32, 64, 128)
+    
+    
+    
+    # Give the configuration a recognizable name
+    NAME = "BuildingDetection"
+    BACKBONE = "resnet50"
+    # Train on 1 GPU and 8 images per GPU. We can put multiple images on each
+    # GPU because the images are small. Batch size is 8 (GPUs * images/GPU).
+    GPU_COUNT = 4
     IMAGES_PER_GPU = 2
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 1
+    NUM_CLASSES = 1 + 1  # background + 1 building
 
-    # Number of training steps per epoch
-    STEPS_PER_EPOCH = 100
+    # Use small images for faster training. Set the limits of the small side
+    # the large side, and that determines the image shape.
+    IMAGE_MIN_DIM = 640
+    IMAGE_MAX_DIM = 640
 
-    # Skip detections with <90% confidence
-    DETECTION_MIN_CONFIDENCE = 0.9
+    # Use smaller anchors because our image and objects are small
+    RPN_ANCHOR_SCALES = (8, 16, 32, 64, 128)  # anchor side in pixels
+    RPN_ANCHOR_RATIOS = [0.25, 1, 4]
 
-    IMAGE_MIN_DIM = 256
-    IMAGE_MAX_DIM = 256
-    USE_MINI_MASK = False
+    # Reduce training ROIs per image because the images are small and have
+    # few objects. Aim to allow ROI sampling to pick 33% positive ROIs.
+    TRAIN_ROIS_PER_IMAGE = 32
 
-    RPN_ANCHOR_SCALES = (8, 16, 32, 64, 128)
+    USE_MINI_MASK = True
+    
+    # Use a small epoch since the data is simple
+    STEPS_PER_EPOCH = 500
 
+    # use small validation steps since the epoch is small
+    VALIDATION_STEPS = 50
 
 #####################################################
 # Dataset
@@ -72,44 +107,6 @@ class BuildingDataset(utils.Dataset):
         dataset_dir = os.path.join(dataset_dir, subset)
 
         # load the annotation from the image boundary
-        """
-        image_dict = {"image_path": single_image_path, "image_name": basename,"annotations": []}
-        label_dict = {"label": 'building'}
-
-        annotations = {"img_id": 
-                            {"image_path": single_image_path, 
-                            "image_name": basename,
-                            "annotations": [
-                                {"label": "building",
-                                 "regions":{
-                                        minx: minx,
-                                        maxx: maxx,
-                                        miny: miny,
-                                        maxy: maxy
-                                 }}
-                            ]
-                            }
-                        }
-        """
-
-        """
-                [{
-                    'image_path':'',
-                    'width': '',
-                    'height':'',
-                    'annotations':[
-                                    {
-                                    'label': 'building',
-                                    'region':
-                                            {
-                                            "all_points_x": [],
-                                            "all_points_y": []
-                                            }
-                                    }
-                                ]
-                }]
-                """
-
         annotations = json.load(open(os.path.join(dataset_dir, "annotation.json")))
         annotations = list(annotations.values())  # dont need the dict keys
 
@@ -133,7 +130,7 @@ class BuildingDataset(utils.Dataset):
                 path=a['image_path'],
                 width=a['width'], height=a['height'],
                 polygons=polygons)
-
+    
     def load_mask(self, image_id):
 
         image_info = self.image_info[image_id]
@@ -151,27 +148,9 @@ class BuildingDataset(utils.Dataset):
         for i, p in enumerate(info["polygons"]):
             # p is a dictionary of instance, loop each instance in info["polygons"]
             # Get indexes of pixels inside the polygon and set them to 1
-
-            """
-            # vertices
-
-            minx = p['region']['minx']
-            miny = p['region']['miny']
-            maxx = p['region']['maxx']
-            maxy = p['region']['maxy']
-            """
-
-            minx = p['minx']
-            miny = p['miny']
-            maxx = p['maxx']
-            maxy = p['maxy']
-
-            if minx < 0:
-                minx = 0
-            if miny < 0:
-                miny = 0
-
-            mask[minx:maxx, maxy:miny, i] = 1
+            
+            rr, cc = skimage.draw.polygon(p['x'], p['y'])
+            mask[rr, cc, i] = 1
 
         """
         # this building block is to pass vertices polygon reading, above uses the bounding box
@@ -185,7 +164,7 @@ class BuildingDataset(utils.Dataset):
         # Return mask, and array of class IDs of each instance
         # one class ID only, we return an array of 1s
 
-        return mask.astype(np.bool), np.ones([mask.shape[-1]], dtype=np.int32)
+        return mask.astype(np.bool_), np.ones([mask.shape[-1]], dtype=np.int32)
 
     def image_reference(self, image_id):
         # return the path of the image
@@ -212,9 +191,10 @@ def train(model):
     model.train(dataset_train, dataset_val,
                 learning_rate=2 * config.LEARNING_RATE,
                 epochs=30,
-                layers="heads")
+                layers="all")
 
     history = model.keras_model.history.history
+
 
 
 def color_splash(image, mask):
@@ -296,13 +276,13 @@ if __name__ == '__main__':
 
     # Parse command line arguments
     parser = argparse.ArgumentParser(
-        description='Train Mask R-CNN to detect balloons.')
+        description='Train Mask R-CNN to detect buildings.')
     parser.add_argument("command",
                         metavar="<command>",
                         help="'train' or 'splash'")
     parser.add_argument('--dataset', required=False,
-                        metavar="/path/to/balloon/dataset/",
-                        help='Directory of the Balloon dataset')
+                        metavar="/path/to/building/dataset/",
+                        help='Directory of the Building dataset')
     parser.add_argument('--weights', required=True,
                         metavar="/path/to/weights.h5",
                         help="Path to weights .h5 file or 'coco'")
