@@ -55,7 +55,7 @@ DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 
 
 class BalloonConfig(Config):
-    """Configuration for training on the toy  dataset.
+    """Configuration for training on the toy dataset.
     Derives from the base Config class and overrides some values.
     """
     # Give the configuration a recognizable name

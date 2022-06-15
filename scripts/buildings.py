@@ -7,6 +7,7 @@ import skimage.draw
 import skimage
 import rasterio
 import geopandas as gpd
+from imgaug import augmenters as iaa
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../")
@@ -21,7 +22,7 @@ COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "weights/mask_rcnn_coco.h5")
 
 # Directory to save logs and model checkpoints, if not provided
 # through the command line argument --logs
-DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs_PAN")
+DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs_DG")
 
 
 ###################################################
@@ -59,7 +60,7 @@ class BuildingConfig(Config):
     
     
     # Give the configuration a recognizable name
-    NAME = "BuildingDetection"
+    NAME = "Building"
     BACKBONE = "resnet50"
     # Train on 1 GPU and 8 images per GPU. We can put multiple images on each
     # GPU because the images are small. Batch size is 8 (GPUs * images/GPU).
@@ -71,12 +72,15 @@ class BuildingConfig(Config):
 
     # Use small images for faster training. Set the limits of the small side
     # the large side, and that determines the image shape.
-    IMAGE_MIN_DIM = 640
-    IMAGE_MAX_DIM = 640
+    IMAGE_MIN_DIM = 1024
+    IMAGE_MAX_DIM = 1024
 
     # Use smaller anchors because our image and objects are small
-    RPN_ANCHOR_SCALES = (8, 16, 32, 64, 128)  # anchor side in pixels
+    RPN_ANCHOR_SCALES = (16, 32, 64, 128, 256)  # anchor side in pixels
+#     RPN_ANCHOR_SCALES = (32, 64, 128, 256)
     RPN_ANCHOR_RATIOS = [0.25, 1, 4]
+    
+#     RPN_ANCHOR_RATIOS = [0.5, 1, 2]
 
     # Reduce training ROIs per image because the images are small and have
     # few objects. Aim to allow ROI sampling to pick 33% positive ROIs.
@@ -89,6 +93,9 @@ class BuildingConfig(Config):
 
     # use small validation steps since the epoch is small
     VALIDATION_STEPS = 50
+    
+    MAX_GT_INSTANCES=250
+    DETECTION_MAX_INSTANCES=350
 
 #####################################################
 # Dataset
@@ -189,11 +196,29 @@ def train(model):
 
     print("Training network heads")
     model.train(dataset_train, dataset_val,
-                learning_rate=2 * config.LEARNING_RATE,
-                epochs=5,
-                layers="heads")
+                learning_rate=config.LEARNING_RATE,
+                epochs=50,
+                layers="all")
 
     history = model.keras_model.history.history
+
+
+
+def augmentation_data(max_aug):
+    
+    max_aug = int(max_aug)
+
+    augmentation = iaa.SomeOf((0, max_augs),[
+                    iaa.Fliplr(0.5),
+                    iaa.Flipud(0.5),
+                    iaa.OneOf([ iaa.Affine(rotate = 30 * i) for i in range(0, 12) ]),
+                    iaa.Affine(scale={"x": (0.8, 1.2), "y": (0.8, 1.2)}),
+                    iaa.Add((-40, 40)),
+                    iaa.Multiply((0.8, 1.5)),
+                    iaa.GaussianBlur(sigma=(0.0, 5.0))
+                ])
+    
+    return augmentation
 
 
 
