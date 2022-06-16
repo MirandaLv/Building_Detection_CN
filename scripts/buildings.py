@@ -72,11 +72,11 @@ class BuildingConfig(Config):
 
     # Use small images for faster training. Set the limits of the small side
     # the large side, and that determines the image shape.
-    IMAGE_MIN_DIM = 1024
-    IMAGE_MAX_DIM = 1024
+    IMAGE_MIN_DIM = 640
+    IMAGE_MAX_DIM = 640
 
     # Use smaller anchors because our image and objects are small
-    RPN_ANCHOR_SCALES = (16, 32, 64, 128, 256)  # anchor side in pixels
+    RPN_ANCHOR_SCALES = (32, 64, 128, 256)  # anchor side in pixels
 #     RPN_ANCHOR_SCALES = (32, 64, 128, 256)
     RPN_ANCHOR_RATIOS = [0.25, 1, 4]
     
@@ -198,7 +198,7 @@ def train(model):
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=50,
-                layers="all")
+                layers="heads")
 
     history = model.keras_model.history.history
 
@@ -393,3 +393,7 @@ if __name__ == '__main__':
               "Use 'train' or 'splash'".format(args.command))
 
 
+        
+# Call on terminal
+# python buildings.py train --dataset /rapids/notebooks/sciclone/geograd/Miranda/github/Building_Detection_CN/processing_data_DG --weights coco
+w
