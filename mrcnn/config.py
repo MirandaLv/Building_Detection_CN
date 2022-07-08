@@ -183,7 +183,6 @@ class Config(object):
 
     # Weight decay regularization
     WEIGHT_DECAY = 0.0001
-
     # Loss weights for more precise optimization.
     # Can be used for R-CNN training setup.
     LOSS_WEIGHTS = {

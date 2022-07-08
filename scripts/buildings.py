@@ -1,3 +1,5 @@
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import os
 import sys
 import json
@@ -10,7 +12,7 @@ import geopandas as gpd
 from imgaug import augmenters as iaa
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("../")
+ROOT_DIR = os.path.abspath("./")
 
 # Import maskRCNN
 sys.path.append(ROOT_DIR)
@@ -22,7 +24,7 @@ COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "weights/mask_rcnn_coco.h5")
 
 # Directory to save logs and model checkpoints, if not provided
 # through the command line argument --logs
-DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs_DG")
+DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs_DG_finetune")
 
 
 ###################################################
@@ -72,19 +74,16 @@ class BuildingConfig(Config):
 
     # Use small images for faster training. Set the limits of the small side
     # the large side, and that determines the image shape.
-    IMAGE_MIN_DIM = 640
-    IMAGE_MAX_DIM = 640
+    IMAGE_MIN_DIM = 1024
+    IMAGE_MAX_DIM = 1024
 
     # Use smaller anchors because our image and objects are small
-    RPN_ANCHOR_SCALES = (32, 64, 128, 256)  # anchor side in pixels
-#     RPN_ANCHOR_SCALES = (32, 64, 128, 256)
+    RPN_ANCHOR_SCALES = (16, 32, 64, 128, 256)  # anchor side in pixels
     RPN_ANCHOR_RATIOS = [0.25, 1, 4]
-    
-#     RPN_ANCHOR_RATIOS = [0.5, 1, 2]
 
     # Reduce training ROIs per image because the images are small and have
     # few objects. Aim to allow ROI sampling to pick 33% positive ROIs.
-    TRAIN_ROIS_PER_IMAGE = 100
+    TRAIN_ROIS_PER_IMAGE = 32
 
     USE_MINI_MASK = True
     
@@ -96,6 +95,7 @@ class BuildingConfig(Config):
     
     MAX_GT_INSTANCES=250
     DETECTION_MAX_INSTANCES=350
+    
 
 #####################################################
 # Dataset
@@ -194,11 +194,19 @@ def train(model):
     dataset_val.load_building(args.dataset, "val")
     dataset_val.prepare()
 
-    print("Training network heads")
+    print("Training network")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=50,
-                layers="heads")
+                epochs=200,
+#                 augmentation = iaa.Sometimes((0.667),[
+#                     iaa.Fliplr(0.5),
+#                     iaa.Flipud(0.5),
+#                     iaa.OneOf([ iaa.Affine(rotate = 30 * i) for i in range(0, 12) ]),
+#                     iaa.Affine(scale={"x": (0.8, 1.2), "y": (0.8, 1.2)}),
+#                     iaa.Add((-40, 40)),
+#                     iaa.Multiply((0.8, 1.5)),
+#                     iaa.GaussianBlur(sigma=(0.0, 5.0))]),
+                layers="all")
 
     history = model.keras_model.history.history
 
@@ -396,4 +404,4 @@ if __name__ == '__main__':
         
 # Call on terminal
 # python buildings.py train --dataset /rapids/notebooks/sciclone/geograd/Miranda/github/Building_Detection_CN/processing_data_DG --weights coco
-w
+# python scripts/buildings.py train --dataset /rapids/notebooks/sciclone/geograd/Miranda/github/Building_Detection_CN/processing_data_DG --weights /rapids/notebooks/sciclone/geograd/Miranda/github/Building_Detection_CN/logs_PAN/building20220701T0340/mask_rcnn_building_0010.h5
